@@ -44,7 +44,7 @@ All development versions are stored in the `Versions` directory for clarity and 
 
 No installation required.  
 
-1. Open a version folder inside `Versions/v1.0/`  
+1. Open a version folder inside `Versions/`  
 2. For **standalone**, open `index.html`  
 3. For **modular**, open `index.html` (CSS and JS are separate)  
 4. Play directly in any modern browser  
