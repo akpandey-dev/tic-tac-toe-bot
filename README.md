@@ -28,15 +28,10 @@ Designed for learning, experimentation, and fun.
 
 ---
 
-## Project Structure
+### Repository Structure
 
-Tic_Tac_Toe/
-├─ README.md  
-├─ Versions/  
-└─ .gitignore
-
-
-All development versions are stored in the `Versions` directory for clarity and version tracking.
+All project versions are organized under the `Versions/` directory.  
+Each version folder contains its own documentation explaining available formats, features, and usage instructions.
 
 ---
 
@@ -44,10 +39,9 @@ All development versions are stored in the `Versions` directory for clarity and 
 
 No installation required.  
 
-1. Open a version folder inside `Versions/`  
-2. For **standalone**, open `index.html`  
-3. For **modular**, open `index.html` (CSS and JS are separate)  
-4. Play directly in any modern browser  
+1. Open a version folder inside `Versions/`   
+2. Open the HTML file there
+3. Play directly in any modern browser  
 
 ---
 
