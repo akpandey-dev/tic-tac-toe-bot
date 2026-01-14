@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tic Tac Toe - Easy/Hard AI</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      background-color: #1e1e1e;
+      color: #fff;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      width: min(90vw, 400px);
+      aspect-ratio: 1/1;
+      background-color: #1e1e1e;
+    }
+
+    .cell {
+      aspect-ratio: 1/1;
+      width: 100%;
+      background-color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(2rem, 8vw, 4rem);
+      line-height: 1;
+      cursor: pointer;
+      transition: 0.3s;
+      border-radius: 8px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      overflow: hidden;
+    }
+
+    .cell:hover {
+      background-color: #555;
+    }
+
+    h2 {
+      margin-top: 1rem;
+      font-size: clamp(1rem, 4vw, 1.5rem);
+    }
+
+    button {
+      margin-top: 0.3rem;
+      padding: 0.6rem 1.2rem;
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background: #444;
+      color: #fff;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #666;
+    }
+
+    #myProgress {
+      width: 100%;
+      background-color: grey;
+      padding: 0;
+      margin: 5px;
+      text-align: center;
+      position: relative;
+    }
+
+    #myBar {
+      margin: 0;
+      width: 0%;
+      height: 3px;
+      background-color: blue;
+    }
+
+    #yourBar {
+      margin: 0;
+      width: 0%;
+      height: 3px;
+      background-color: red;
+    }
+
+    #Regard {
+      margin: 0 0;
+      padding: 0%;
+      color: black;
+      font-size: xx-small;
+      position: absolute;
+      font-style: oblique;
+      font-weight: 200;
+      width: 100%;
+    }
+
+    /* Difficulty Toggle */
+    .difficulty-container {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;  
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 60px;
+      height: 30px;
+      background: #444;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toggle-switch:hover {
+      background: #666;
+    }
+
+    .toggle-knob {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background: #fff;
+      border-radius: 50%;
+      transition: left 0.3s;
+    }
+
+    .toggle-switch.active {
+      background: #2196F3;
+    }
+
+    .toggle-switch.active .toggle-knob {
+      left: 33px;
+    }
+
+    .difficulty-label {
+      font-size: 1rem;
+      min-width: 60px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tic Tac Toe</h1>
+
+  <div id="board" class="board">
+    <div class="cell" data-index="0"></div>
+    <div class="cell" data-index="1"></div>
+    <div class="cell" data-index="2"></div>
+    <div class="cell" data-index="3"></div>
+    <div class="cell" data-index="4"></div>
+    <div class="cell" data-index="5"></div>
+    <div class="cell" data-index="6"></div>
+    <div class="cell" data-index="7"></div>
+    <div class="cell" data-index="8"></div>
+  </div>
+
+  <h2 id="status">Your turn (X)</h2>
+  <button id="reset">Reset Round</button>
+
+  <div class="difficulty-container">
+    <span class="difficulty-label">Disable</span>
+    <div id="difficultyToggle" class="toggle-switch" title="Toggle Difficulty"></div>
+    <span class="difficulty-label">Hard Mode</span>
+  </div>
+
+  <div id="myProgress">
+    <p id="Regard">First to fill the bar wins!</p>
+    <div id="myBar"></div>
+    <div id="yourBar"></div>
+  </div>
+
+  <audio id="won" src="https://orangefreesounds.com/wp-content/uploads/2025/05/Victory-sound-effect.mp3" preload="auto"></audio>
+
+  <script>
+    const cells = document.querySelectorAll(".cell");
+    const statusText = document.getElementById("status");
+    const resetBtn = document.getElementById("reset");
+    const difficultyToggle = document.getElementById("difficultyToggle");
+    const wonSound = document.getElementById("won");
+    const myBar = document.getElementById("myBar");
+    const yourBar = document.getElementById("yourBar");
+
+    let board = Array(9).fill("");
+    let gameOver = false;
+    let currentPlayer = "X"; // User always X
+    let Xwidth = 0; // progress bar for user
+    let Ywidth = 0; // progress bar for AI
+    const progressPerWin = 10; // each win adds 10%
+    let difficultyHard = true; // default Hard AI (minimax)
+
+    const winCombos = [
+      [0,1,2], [3,4,5], [6,7,8],
+      [0,3,6], [1,4,7], [2,5,8],
+      [0,4,8], [2,4,6]
+    ];
+
+    // Toggle difficulty on click
+    difficultyToggle.addEventListener("click", () => {
+      difficultyHard = !difficultyHard;
+      difficultyToggle.classList.toggle("active", difficultyHard);
+    });
+
+    // Initialize difficulty toggle UI (default Hard)
+    difficultyToggle.classList.add("active");
+
+    function checkWin(bd) {
+      for(let combo of winCombos) {
+        const [a,b,c] = combo;
+        if(bd[a] && bd[a] === bd[b] && bd[a] === bd[c]) return bd[a];
+      }
+      return bd.includes("") ? null : "draw";
+    }
+
+    function minimax(bd, isMax) {
+      let winner = checkWin(bd);
+      if(winner === "O") return {score: 1};
+      if(winner === "X") return {score: -1};
+      if(winner === "draw") return {score: 0};
+
+      const moves = [];
+      for(let i = 0; i < bd.length; i++) {
+        if(bd[i] === "") {
+          bd[i] = isMax ? "O" : "X";
+          const result = minimax(bd, !isMax);
+          moves.push({index: i, score: result.score});
+          bd[i] = "";
+        }
+      }
+
+      return isMax
+        ? moves.reduce((max, move) => move.score > max.score ? move : max)
+        : moves.reduce((min, move) => move.score < min.score ? move : min);
+    }
+
+    function aiMove() {
+      if(gameOver) return;
+
+      let moveIndex;
+
+      if(difficultyHard) {
+        // Minimax AI
+        const move = minimax(board.slice(), true);
+        moveIndex = move.index;
+      } else {
+        // Random AI
+        const empty = board.map((v,i) => v === "" ? i : null).filter(i => i !== null);
+        moveIndex = empty[Math.floor(Math.random() * empty.length)];
+      }
+
+      if(moveIndex !== undefined) {
+        board[moveIndex] = "O";
+        cells[moveIndex].textContent = "O";
+        checkGameStatus();
+      }
+    }
+
+    function checkGameStatus() {
+      const winner = checkWin(board);
+      if(winner) {
+        gameOver = true;
+        if(winner === "draw") {
+          statusText.textContent = "It's a Draw 😶";
+        } else {
+          statusText.textContent = winner === "X" ? "You Win 🎉" : "AI Wins 🤖";
+          wonSound.play();
+          if(winner === "X") {
+            Xwidth += progressPerWin;
+            myBar.style.width = Xwidth + "%";
+          } else {
+            Ywidth += progressPerWin;
+            yourBar.style.width = Ywidth + "%";
+          }
+        }
+        // Highlight winning combo
+        if(winner !== "draw") {
+          for(let combo of winCombos) {
+            const [a,b,c] = combo;
+            if(board[a] === winner && board[b] === winner && board[c] === winner) {
+              [a,b,c].forEach(i => cells[i].style.backgroundColor = winner === "X" ? "blue" : "red");
+            }
+          }
+        }
+        // Disable board if match won
+        if(Xwidth >= 100 || Ywidth >= 100) {
+          statusText.textContent = Xwidth >= 100 ? "You won the Match! 🏆" : "AI won the Match! 🏆";
+          cells.forEach(cell => cell.style.pointerEvents = "none");
+          resetBtn.textContent = "Reset Match";
+          resetBtn.style.backgroundColor = "red";
+        }
+      } else {
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
+        statusText.textContent = currentPlayer === "X" ? "Your turn (X)" : "AI thinking...";
+        if(currentPlayer === "O") {
+          setTimeout(() => {
+            aiMove();
+            currentPlayer = "X";
+            if(!gameOver) statusText.textContent = "Your turn (X)";
+          }, 300);
+        }
+      }
+    }
+
+    cells.forEach(cell => {
+      cell.addEventListener("click", () => {
+        if(gameOver || currentPlayer !== "X") return;
+        const index = +cell.dataset.index;
+        if(board[index] === "") {
+          board[index] = "X";
+          cell.textContent = "X";
+          checkGameStatus();
+        }
+      });
+    });
+
+    resetBtn.addEventListener("click", () => {
+      // Reset round
+      if(Xwidth >= 100 || Ywidth >= 100) {
+        // Reset entire match
+        Xwidth = 0;
+        Ywidth = 0;
+        myBar.style.width = "0%";
+        yourBar.style.width = "0%";
+        resetBtn.textContent = "Reset Round";
+        resetBtn.style.backgroundColor = "#444";
+        cells.forEach(cell => cell.style.pointerEvents = "auto");
+      }
+
+      board = Array(9).fill("");
+      gameOver = false;
+      currentPlayer = "X";
+      statusText.textContent = "Your turn (X)";
+      cells.forEach(cell => {
+        cell.textContent = "";
+        cell.style.backgroundColor = "#333";
+        cell.style.pointerEvents = "auto";
+      });
+    });
+
+  </script>
+</body>
+</html>
