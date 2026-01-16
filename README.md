@@ -20,9 +20,7 @@ Designed for learning, experimentation, and fun.
   - Hard AI: Minimax algorithm
 - Match progress tracking using progress bars
 - Responsive design for desktop and mobile
-- Reset round or reset entire match
-- Highlight winning combination
-- Sound effects on win
+- Sound effects used
 - Toggle difficulty (Easy / Hard)
 - Fully offline, single-file playable
 
@@ -56,3 +54,8 @@ No installation required.
 ## License
 
 Open-source for learning, modification, and experimentation.
+
+
+---
+> 🌐 **Try Live**  
+> Try it here: https://akp-labs.github.io/tic-tac-toe-bot
