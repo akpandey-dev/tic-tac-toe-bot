@@ -1,9 +1,7 @@
-# TicTacToe_Bot
-Classic Tic-Tac-Toe enhanced with AI using the Minimax algorithm. Play against a smart AI that can switch between easy and hard modes, complete with round/match progress tracking and responsive design for all devices.
-# Tic Tac Toe – Easy/Hard AI
+# Tic Tac Toe Bot
 
-A lightweight, browser-based Tic Tac Toe game with adjustable AI difficulty.  
-Perfect for beginners exploring **game logic, AI, and DOM manipulation**.  
+Classic Tic-Tac-Toe enhanced with AI using the Minimax algorithm. Play against a smart AI that can switch between easy and hard modes, complete with round/match progress tracking and responsive design for all devices.
+It is a lightweight, browser-based Tic Tac Toe game with adjustable AI difficulty, perfect for beginners exploring **game logic, AI, and DOM manipulation**.  
 
 The project is fully offline-ready, responsive, and playable directly in a modern browser.  
 Designed for learning, experimentation, and fun.
@@ -28,7 +26,7 @@ Designed for learning, experimentation, and fun.
 
 ### Repository Structure
 
-All project versions are organized under the `Versions/` directory.  
+All project versions are organized under the `versions/` directory.  
 Each version folder contains its own documentation explaining available formats, features, and usage instructions.
 
 ---
@@ -37,7 +35,7 @@ Each version folder contains its own documentation explaining available formats,
 
 No installation required.  
 
-1. Open a version folder inside `Versions/`   
+1. Open a version folder inside `versions/`   
 2. Open the HTML file there
 3. Play directly in any modern browser  
 

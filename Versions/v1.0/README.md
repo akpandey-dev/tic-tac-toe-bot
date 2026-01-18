@@ -1,4 +1,4 @@
-# Tic Tac Toe – v1.0
+# Tic Tac Toe Bot – v1.0
 
 Version 1.0 is the **first stable release** of the Tic Tac Toe game.  
 It includes both **Easy and Hard AI modes**, match progress tracking, and responsive offline gameplay.
@@ -11,7 +11,7 @@ This version is delivered in **two formats**: a standalone build and a modular b
 
 ### 1. Standalone Build (`single-file/`)
 
-**TicTacToeBot.html**
+**tic-tac-toe-bot.html**
 
 - Contains HTML, CSS, and JavaScript in a **single file**  
 - Fully portable and offline-ready  
