@@ -24,7 +24,7 @@ Designed for learning, experimentation, and fun.
 
 ---
 
-### Repository Structure
+## Repository Structure
 
 All project versions are organized under the `versions/` directory.  
 Each version folder contains its own documentation explaining available formats, features, and usage instructions.
