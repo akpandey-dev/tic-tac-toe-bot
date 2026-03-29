@@ -35,9 +35,11 @@ Each version folder contains its own documentation explaining available formats,
 
 No installation required.  
 
-1. Open a version folder inside `versions/`   
-2. Open the HTML file there
-3. Play directly in any modern browser  
+1. Clone the repository(or download the specific file(s))
+2. Open a version folder inside `versions/`   
+3. Choose your preferred build
+4. Open the HTML file there
+5. Play directly in any modern browser  
 
 ---
 
@@ -56,4 +58,4 @@ Open-source for learning, modification, and experimentation.
 
 ---
 > 🌐 **Try Live**  
-> Try it here: https://akp-labs.github.io/tic-tac-toe-bot
+> Try it here: https://akpandey-dev.github.io/tic-tac-toe-bot
