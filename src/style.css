@@ -1,4 +1,4 @@
-/* style.css */
+
     body {
       display: flex;
       flex-direction: column;
@@ -18,7 +18,7 @@
       font-size: clamp(1.5rem, 5vw, 2.5rem);
     }
 
-    .board {
+    .gameBoard {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 8px;
@@ -156,4 +156,5 @@
       font-size: 1rem;
       min-width: 60px;
       text-align: center;
+      transition: 0.2s;
     }
